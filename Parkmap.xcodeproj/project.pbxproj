@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		903695CB1B2BF0AE00C4F05B /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 903695CA1B2BF0AE00C4F05B /* MapKit.framework */; };
 		9086565D1B27344B00A1EB11 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9086565C1B27344B00A1EB11 /* AppDelegate.swift */; };
 		9086565F1B27344B00A1EB11 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9086565E1B27344B00A1EB11 /* ViewController.swift */; };
 		908656621B27344B00A1EB11 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 908656601B27344B00A1EB11 /* Main.storyboard */; };
@@ -26,6 +27,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		903695CA1B2BF0AE00C4F05B /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		908656571B27344B00A1EB11 /* Parkmap.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Parkmap.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9086565B1B27344B00A1EB11 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9086565C1B27344B00A1EB11 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -43,6 +45,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				903695CB1B2BF0AE00C4F05B /* MapKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -59,6 +62,7 @@
 		9086564E1B27344B00A1EB11 = {
 			isa = PBXGroup;
 			children = (
+				903695CA1B2BF0AE00C4F05B /* MapKit.framework */,
 				908656591B27344B00A1EB11 /* Parkmap */,
 				9086566F1B27344B00A1EB11 /* ParkmapTests */,
 				908656581B27344B00A1EB11 /* Products */,
@@ -291,7 +295,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -329,7 +333,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
@@ -409,6 +413,7 @@
 				908656781B27344B00A1EB11 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		908656791B27344B00A1EB11 /* Build configuration list for PBXNativeTarget "ParkmapTests" */ = {
 			isa = XCConfigurationList;
@@ -417,6 +422,7 @@
 				9086567B1B27344B00A1EB11 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
