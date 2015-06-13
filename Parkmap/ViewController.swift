@@ -13,6 +13,23 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        let url = NSURL(string: "http://localhost:3000/.json")
+        let request = NSMutableURLRequest(URL: url!)
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        let params = [
+            "distance":300,
+            "longitude":132.465511,
+            "latitude":34.393056,
+            "start_at": "",
+            "end_at":""]
+        // set the header(s)
+        request.HTTPMethod = "POST"
+        request.HTTPBody = NSJSONSerialization.dataWithJSONObject(params, options: nil, error: nil)
+        let data = NSURLConnection.sendSynchronousRequest(request, returningResponse: nil, error: nil)
+        if let d = data {
+            let dict = NSJSONSerialization.JSONObjectWithData(d, options: NSJSONReadingOptions.MutableContainers, error: nil) as! NSDictionary
+            print(dict)
+        }
     }
 
     override func didReceiveMemoryWarning() {
