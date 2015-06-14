@@ -7,9 +7,12 @@
 //
 
 import UIKit
+import MapKit
 
 class ViewController: UIViewController {
 
+    @IBOutlet weak var mapView: MKMapView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -30,6 +33,14 @@ class ViewController: UIViewController {
             let dict = NSJSONSerialization.JSONObjectWithData(d, options: NSJSONReadingOptions.MutableContainers, error: nil) as! NSDictionary
             print(dict)
         }
+        
+        mapView.centerCoordinate = CLLocationCoordinate2D(latitude: 34.39091111111111, longitude: 132.4669333333333)
+        mapView.region = MKCoordinateRegionMake(mapView.centerCoordinate, MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01))
+        
+        let annotation = MKPointAnnotation()
+        annotation.title = "title"
+        annotation.coordinate = mapView.centerCoordinate
+            mapView.addAnnotation(annotation)
     }
 
     override func didReceiveMemoryWarning() {
