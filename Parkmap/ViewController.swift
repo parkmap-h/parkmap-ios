@@ -16,6 +16,9 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        mapView.centerCoordinate = CLLocationCoordinate2D(latitude: 34.39091111111111, longitude: 132.4669333333333)
+        mapView.region = MKCoordinateRegionMake(mapView.centerCoordinate, MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01))
+
         let url = NSURL(string: "http://localhost:3000/.json")
         let request = NSMutableURLRequest(URL: url!)
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -32,15 +35,17 @@ class ViewController: UIViewController {
         if let d = data {
             let dict = NSJSONSerialization.JSONObjectWithData(d, options: NSJSONReadingOptions.MutableContainers, error: nil) as! NSDictionary
             print(dict)
+            for feature in dict["features"] as! NSArray {
+                let geometory = feature["geometry"] as! NSDictionary
+                let coordinates = geometory["coordinates"] as! NSArray
+                let annotation = MKPointAnnotation()
+                annotation.title = "title"
+                annotation.subtitle = "subtitle"
+
+                annotation.coordinate = CLLocationCoordinate2D(latitude: coordinates[1] as! Double, longitude: coordinates[0] as! Double)
+                mapView.addAnnotation(annotation)
+            }
         }
-        
-        mapView.centerCoordinate = CLLocationCoordinate2D(latitude: 34.39091111111111, longitude: 132.4669333333333)
-        mapView.region = MKCoordinateRegionMake(mapView.centerCoordinate, MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01))
-        
-        let annotation = MKPointAnnotation()
-        annotation.title = "title"
-        annotation.coordinate = mapView.centerCoordinate
-            mapView.addAnnotation(annotation)
     }
 
     override func didReceiveMemoryWarning() {
