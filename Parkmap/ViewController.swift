@@ -9,6 +9,40 @@
 import UIKit
 import MapKit
 
+
+struct Feature {
+    let type: String
+    let coordinate: CLLocationCoordinate2D
+    static func decode(j: NSDictionary) -> Feature? {
+        if let geometory = j["geometry"] as? NSDictionary,
+        let coordinates = geometory["coordinates"] as? [NSNumber],
+        let type = j["type"] as? String {
+            return Feature(type: type, coordinate: CLLocationCoordinate2D(latitude: coordinates[1].doubleValue, longitude: coordinates[0].doubleValue))
+        }
+        return .None
+    }
+}
+
+struct FeatureCollection {
+    let type: String
+    let features: [Feature]
+
+    static func decode(j: NSDictionary) -> FeatureCollection? {
+        if let type = j["type"] as? String,
+        let j_features: [NSDictionary] = j["features"] as? [NSDictionary],
+        // Haskellのsequence
+        let features: [Feature] = j_features.reduce(Optional.Some([]), combine: { (acc,j_feature) in
+            switch Feature.decode(j_feature) {
+                case .None: return .None
+                case .Some(let f): return acc.map { fs in var m = fs; m.append(f); return m }
+            }
+        }) {
+            return FeatureCollection(type: type, features: features)
+        }
+        return .None
+    }
+}
+
 class ViewController: UIViewController {
 
     @IBOutlet weak var mapView: MKMapView!
@@ -35,15 +69,16 @@ class ViewController: UIViewController {
         if let d = data {
             let dict = NSJSONSerialization.JSONObjectWithData(d, options: NSJSONReadingOptions.MutableContainers, error: nil) as! NSDictionary
             print(dict)
-            for feature in dict["features"] as! NSArray {
-                let geometory = feature["geometry"] as! NSDictionary
-                let coordinates = geometory["coordinates"] as! NSArray
-                let annotation = MKPointAnnotation()
-                annotation.title = "title"
-                annotation.subtitle = "subtitle"
+            if let features = FeatureCollection.decode(dict) {
+                for feature in features.features {
+                    let annotation = MKPointAnnotation()
+                    annotation.title = "title"
+                    annotation.subtitle = "subtitle"
 
-                annotation.coordinate = CLLocationCoordinate2D(latitude: coordinates[1] as! Double, longitude: coordinates[0] as! Double)
-                mapView.addAnnotation(annotation)
+                    annotation.coordinate = feature.coordinate
+                    mapView.addAnnotation(annotation)
+                    print(feature.type)
+                }
             }
         }
     }
