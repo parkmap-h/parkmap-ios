@@ -9,17 +9,28 @@
 import UIKit
 import MapKit
 
+func sequence<T>(xs: [T?]) -> [T]? {
+    var result: [T]? = []
+    for optX in xs {
+        if let x = optX {
+            result?.append(x)
+        } else {
+            return nil
+        }
+    }
+    return result
+}
 
 struct Feature {
     let type: String
     let coordinate: CLLocationCoordinate2D
     static func decode(j: NSDictionary) -> Feature? {
-        if let geometory = j["geometry"] as? NSDictionary,
-        let coordinates = geometory["coordinates"] as? [NSNumber],
-        let type = j["type"] as? String {
-            return Feature(type: type, coordinate: CLLocationCoordinate2D(latitude: coordinates[1].doubleValue, longitude: coordinates[0].doubleValue))
+        if  let geometory = j["geometry"] as? NSDictionary,
+            let coordinates = geometory["coordinates"] as? [NSNumber],
+            let type = j["type"] as? String {
+                return Feature(type: type, coordinate: CLLocationCoordinate2D(latitude: coordinates[1].doubleValue, longitude: coordinates[0].doubleValue))
         }
-        return .None
+        return nil
     }
 }
 
@@ -28,18 +39,12 @@ struct FeatureCollection {
     let features: [Feature]
 
     static func decode(j: NSDictionary) -> FeatureCollection? {
-        if let type = j["type"] as? String,
-        let j_features: [NSDictionary] = j["features"] as? [NSDictionary],
-        // Haskellのsequence
-        let features: [Feature] = j_features.reduce(Optional.Some([]), combine: { (acc,j_feature) in
-            switch Feature.decode(j_feature) {
-                case .None: return .None
-                case .Some(let f): return acc.map { fs in var m = fs; m.append(f); return m }
-            }
-        }) {
-            return FeatureCollection(type: type, features: features)
+        if  let type = j["type"] as? String,
+            let j_features: [NSDictionary] = j["features"] as? [NSDictionary],
+            let features: [Feature] = sequence(j_features.map { f in Feature.decode(f) }) {
+                return FeatureCollection(type: type, features: features)
         }
-        return .None
+        return nil
     }
 }
 
@@ -90,4 +95,3 @@ class ViewController: UIViewController {
 
 
 }
-
