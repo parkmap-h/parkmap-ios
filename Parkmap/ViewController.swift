@@ -48,44 +48,17 @@ struct FeatureCollection {
     }
 }
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, MKMapViewDelegate {
 
     @IBOutlet weak var mapView: MKMapView!
-    
+    let operationQueue = NSOperationQueue()
+
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        mapView.delegate = self
         mapView.centerCoordinate = CLLocationCoordinate2D(latitude: 34.39091111111111, longitude: 132.4669333333333)
         mapView.region = MKCoordinateRegionMake(mapView.centerCoordinate, MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01))
-
-        let url = NSURL(string: "http://localhost:3000/.json")
-        let request = NSMutableURLRequest(URL: url!)
-        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        let params = [
-            "distance":300,
-            "longitude":132.465511,
-            "latitude":34.393056,
-            "start_at": "",
-            "end_at":""]
-        // set the header(s)
-        request.HTTPMethod = "POST"
-        request.HTTPBody = NSJSONSerialization.dataWithJSONObject(params, options: nil, error: nil)
-        let data = NSURLConnection.sendSynchronousRequest(request, returningResponse: nil, error: nil)
-        if let d = data {
-            let dict = NSJSONSerialization.JSONObjectWithData(d, options: NSJSONReadingOptions.MutableContainers, error: nil) as! NSDictionary
-            print(dict)
-            if let features = FeatureCollection.decode(dict) {
-                for feature in features.features {
-                    let annotation = MKPointAnnotation()
-                    annotation.title = "title"
-                    annotation.subtitle = "subtitle"
-
-                    annotation.coordinate = feature.coordinate
-                    mapView.addAnnotation(annotation)
-                    print(feature.type)
-                }
-            }
-        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -93,5 +66,46 @@ class ViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
 
+    func search() {
+        let url = NSURL(string: "http://localhost:3000/.json")
+        let request = NSMutableURLRequest(URL: url!)
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        let params = [
+            "distance":500,
+            "longitude":mapView.centerCoordinate.longitude,
+            "latitude":mapView.centerCoordinate.latitude,
+            "start_at": "",
+            "end_at":""]
+        // set the header(s)
+        request.HTTPMethod = "POST"
+        request.HTTPBody = NSJSONSerialization.dataWithJSONObject(params, options: nil, error: nil)
+        NSURLConnection.sendAsynchronousRequest(request, queue: operationQueue, completionHandler: {(response, data, error) in
+            if let d = data {
+                let dict = NSJSONSerialization.JSONObjectWithData(d, options: NSJSONReadingOptions.MutableContainers, error: nil) as! NSDictionary
+                print(dict)
+                if let features = FeatureCollection.decode(dict) {
+                    NSOperationQueue.mainQueue().addOperationWithBlock({ self.addAnntations(features) })
+                }
+            }
+        })
+    }
+
+    func addAnntations(features: FeatureCollection) {
+        let old_annotations = mapView.annotations
+        for feature in features.features {
+            let annotation = MKPointAnnotation()
+            annotation.title = "title"
+            annotation.subtitle = "subtitle"
+
+            annotation.coordinate = feature.coordinate
+            mapView.addAnnotation(annotation)
+        }
+        mapView.removeAnnotations(old_annotations)
+    }
+
+    // MARK: - MKMapViewDelegate
+    func mapViewWillStartLoadingMap(mapView: MKMapView!) {
+        search()
+    }
 
 }
