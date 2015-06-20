@@ -82,7 +82,6 @@ class ViewController: UIViewController, MKMapViewDelegate {
         NSURLConnection.sendAsynchronousRequest(request, queue: operationQueue, completionHandler: {(response, data, error) in
             if let d = data {
                 let dict = NSJSONSerialization.JSONObjectWithData(d, options: NSJSONReadingOptions.MutableContainers, error: nil) as! NSDictionary
-                print(dict)
                 if let features = FeatureCollection.decode(dict) {
                     NSOperationQueue.mainQueue().addOperationWithBlock({ self.addAnntations(features) })
                 }
@@ -103,8 +102,9 @@ class ViewController: UIViewController, MKMapViewDelegate {
         mapView.removeAnnotations(old_annotations)
     }
 
+    
     // MARK: - MKMapViewDelegate
-    func mapViewWillStartLoadingMap(mapView: MKMapView!) {
+    func mapView(mapView: MKMapView!, regionDidChangeAnimated animated: Bool) {
         search()
     }
 
