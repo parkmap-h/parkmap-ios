@@ -24,11 +24,13 @@ func sequence<T>(xs: [T?]) -> [T]? {
 struct Feature {
     let type: String
     let coordinate: CLLocationCoordinate2D
+    let properties: NSDictionary
     static func decode(j: NSDictionary) -> Feature? {
-        if  let geometory = j["geometry"] as? NSDictionary,
-            let coordinates = geometory["coordinates"] as? [NSNumber],
-            let type = j["type"] as? String {
-                return Feature(type: type, coordinate: CLLocationCoordinate2D(latitude: coordinates[1].doubleValue, longitude: coordinates[0].doubleValue))
+        if let geometory = j["geometry"] as? NSDictionary,
+            coordinates = geometory["coordinates"] as? [NSNumber],
+            properties = j["properties"] as? NSDictionary,
+            type = j["type"] as? String {
+                return Feature(type: type, coordinate: CLLocationCoordinate2D(latitude: coordinates[1].doubleValue, longitude: coordinates[0].doubleValue), properties: properties)
         }
         return nil
     }
@@ -94,8 +96,11 @@ class ViewController: UIViewController, MKMapViewDelegate {
         for feature in features.features {
             let annotation = MKPointAnnotation()
             annotation.title = "title"
-            annotation.subtitle = "subtitle"
-
+            if let fee = feature.properties["calc_fee"] as? NSNumber {
+                annotation.subtitle = "\(fee)円"
+            } else {
+                annotation.subtitle = "料金情報なし"
+            }
             annotation.coordinate = feature.coordinate
             mapView.addAnnotation(annotation)
         }
@@ -108,4 +113,20 @@ class ViewController: UIViewController, MKMapViewDelegate {
         search()
     }
 
+    func mapView(mapView: MKMapView!, viewForAnnotation annotation: MKAnnotation!) -> MKAnnotationView! {
+        let myIdentifier = "park"
+        var myAnnotation: MKAnnotationView!
+        if myAnnotation == nil {
+            myAnnotation = MKAnnotationView(annotation: annotation, reuseIdentifier: myIdentifier)
+        }
+        let view = UILabel(frame: CGRect(origin: CGPoint(x: -20, y: -6), size: CGSize(width: 40,height: 12)))
+        view.font = UIFont.systemFontOfSize(10)
+        view.text = annotation.subtitle
+        view.adjustsFontSizeToFitWidth = true
+        view.textAlignment = .Center
+        view.backgroundColor = UIColor.whiteColor()
+        myAnnotation.addSubview(view)
+        myAnnotation.annotation = annotation
+        return myAnnotation
+    }
 }
