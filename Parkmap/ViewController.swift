@@ -54,6 +54,8 @@ class ViewController: UIViewController, MKMapViewDelegate {
 
     @IBOutlet weak var mapView: MKMapView!
     let operationQueue = NSOperationQueue()
+    let annotations = NSMutableOrderedSet()
+    let annotationDictionary = NSMutableDictionary()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -73,7 +75,7 @@ class ViewController: UIViewController, MKMapViewDelegate {
         let request = NSMutableURLRequest(URL: url!)
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         let params = [
-            "distance":500,
+            "distance":200,
             "longitude":mapView.centerCoordinate.longitude,
             "latitude":mapView.centerCoordinate.latitude,
             "start_at": "",
@@ -85,15 +87,19 @@ class ViewController: UIViewController, MKMapViewDelegate {
             if let d = data {
                 let dict = NSJSONSerialization.JSONObjectWithData(d, options: NSJSONReadingOptions.MutableContainers, error: nil) as! NSDictionary
                 if let features = FeatureCollection.decode(dict) {
-                    NSOperationQueue.mainQueue().addOperationWithBlock({ self.addAnntations(features) })
+                    self.addAnntations(features)
                 }
             }
         })
     }
 
     func addAnntations(features: FeatureCollection) {
-        let old_annotations = mapView.annotations
-        for feature in features.features {
+        let sorted = features.features.sorted({(feature1, feature2) in
+            let distance1 = feature1.properties["distance"] as! NSNumber
+            let distance2 = feature2.properties["distance"] as! NSNumber
+            return distance1.doubleValue < distance2.doubleValue
+        })
+        for feature in sorted {
             let annotation = MKPointAnnotation()
             annotation.title = "title"
             if let fee = feature.properties["calc_fee"] as? NSNumber {
@@ -101,10 +107,28 @@ class ViewController: UIViewController, MKMapViewDelegate {
             } else {
                 annotation.subtitle = "料金情報なし"
             }
+            let id = feature.properties["id"] as! NSNumber
+
             annotation.coordinate = feature.coordinate
-            mapView.addAnnotation(annotation)
+            annotations.addObject(id)
+            annotationDictionary.setObject(annotation, forKey: id)
+            NSOperationQueue.mainQueue().addOperationWithBlock({
+                self.mapView.addAnnotation(annotation)
+            })
+            var count = annotations.count
+            while true {
+                if (count < 200) { break }
+                count--
+                let removeId = annotations.objectAtIndex(0) as! NSNumber
+                annotations.removeObjectAtIndex(0)
+                let removeAnnotation = annotationDictionary.objectForKey(removeId) as! MKAnnotation
+                annotationDictionary.removeObjectForKey(removeId)
+                NSOperationQueue.mainQueue().addOperationWithBlock({
+                    self.mapView.removeAnnotation(removeAnnotation)
+                })
+            }
         }
-        mapView.removeAnnotations(old_annotations)
+
     }
 
     
@@ -119,8 +143,8 @@ class ViewController: UIViewController, MKMapViewDelegate {
         if myAnnotation == nil {
             myAnnotation = MKAnnotationView(annotation: annotation, reuseIdentifier: myIdentifier)
         }
-        let view = UILabel(frame: CGRect(origin: CGPoint(x: -20, y: -6), size: CGSize(width: 40,height: 12)))
-        view.font = UIFont.systemFontOfSize(10)
+        let view = UILabel(frame: CGRect(origin: CGPoint(x: -20, y: -6), size: CGSize(width: 60,height: 12)))
+        view.font = UIFont.systemFontOfSize(12)
         view.text = annotation.subtitle
         view.adjustsFontSizeToFitWidth = true
         view.textAlignment = .Center
