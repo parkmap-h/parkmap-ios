@@ -50,6 +50,19 @@ struct FeatureCollection {
     }
 }
 
+struct Park {
+    let id: NSNumber
+    let distance: NSNumber
+    let fee: NSNumber?
+    let coordinate: CLLocationCoordinate2D
+    static func fromFeatrue(j: Feature) -> Park {
+        let id = j.properties["id"] as! NSNumber
+        let distance = j.properties["distance"] as! NSNumber
+        let fee = j.properties["calc_fee"] as? NSNumber
+        return Park(id: id, distance: distance, fee: fee, coordinate: j.coordinate)
+    }
+}
+
 class ViewController: UIViewController, MKMapViewDelegate {
 
     @IBOutlet weak var mapView: MKMapView!
@@ -94,22 +107,23 @@ class ViewController: UIViewController, MKMapViewDelegate {
     }
 
     func addAnntations(features: FeatureCollection) {
-        let sorted = features.features.sorted({(feature1, feature2) in
-            let distance1 = feature1.properties["distance"] as! NSNumber
-            let distance2 = feature2.properties["distance"] as! NSNumber
+        let parks = features.features.map({ (feature) in return Park.fromFeatrue(feature) })
+        let sorted = parks.sorted({(park1, park2) in
+            let distance1 = park1.distance
+            let distance2 = park2.distance
             return distance1.doubleValue < distance2.doubleValue
         })
-        for feature in sorted {
+        for park in sorted {
             let annotation = MKPointAnnotation()
             annotation.title = "title"
-            if let fee = feature.properties["calc_fee"] as? NSNumber {
+            if let fee = park.fee {
                 annotation.subtitle = "\(fee)円"
             } else {
                 annotation.subtitle = "料金情報なし"
             }
-            let id = feature.properties["id"] as! NSNumber
+            let id = park.id
 
-            annotation.coordinate = feature.coordinate
+            annotation.coordinate = park.coordinate
             annotations.addObject(id)
             annotationDictionary.setObject(annotation, forKey: id)
             NSOperationQueue.mainQueue().addOperationWithBlock({
