@@ -6,9 +6,9 @@ import MapKit
 class ViewController: UIViewController, MKMapViewDelegate {
 
     @IBOutlet weak var mapView: MKMapView!
-    let operationQueue = NSOperationQueue()
     let annotations = NSMutableOrderedSet()
     let annotationDictionary = NSMutableDictionary()
+    let api = ParkmapAPI()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,25 +24,14 @@ class ViewController: UIViewController, MKMapViewDelegate {
     }
 
     func search() {
-        let url = NSURL(string: "http://localhost:3000/.json")
-        let request = NSMutableURLRequest(URL: url!)
-        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         let params = [
             "distance":200,
             "longitude":mapView.centerCoordinate.longitude,
             "latitude":mapView.centerCoordinate.latitude,
-            "start_at": "",
+            "start_at":"",
             "end_at":""]
-        // set the header(s)
-        request.HTTPMethod = "POST"
-        request.HTTPBody = NSJSONSerialization.dataWithJSONObject(params, options: nil, error: nil)
-        NSURLConnection.sendAsynchronousRequest(request, queue: operationQueue, completionHandler: {(response, data, error) in
-            if let d = data {
-                let dict = NSJSONSerialization.JSONObjectWithData(d, options: NSJSONReadingOptions.MutableContainers, error: nil) as! NSDictionary
-                if let features = FeatureCollection.decode(dict) {
-                    self.addAnntations(features)
-                }
-            }
+        api.search(params, handler: {(features) in
+            self.addAnntations(features)
         })
     }
 
