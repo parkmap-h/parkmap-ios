@@ -1,10 +1,4 @@
-//
-//  AppDelegate.swift
-//  Parkmap
-//
-//  Created by えいる on 2015/06/09.
 //  Copyright (c) 2015年 Parkmap. All rights reserved.
-//
 
 import UIKit
 
