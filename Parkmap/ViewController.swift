@@ -74,7 +74,6 @@ class ViewController: UIViewController, MKMapViewDelegate {
 
     }
 
-    
     // MARK: - MKMapViewDelegate
     func mapView(mapView: MKMapView!, regionDidChangeAnimated animated: Bool) {
         search()
@@ -96,4 +95,9 @@ class ViewController: UIViewController, MKMapViewDelegate {
         myAnnotation.annotation = annotation
         return myAnnotation
     }
+
+    func mapView(mapView: MKMapView!, didSelectAnnotationView view: MKAnnotationView!) {
+        NSLog("tapped annotation")
+    }
+
 }
