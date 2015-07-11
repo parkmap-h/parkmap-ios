@@ -3,6 +3,23 @@
 import UIKit
 import MapKit
 
+class ParkAnnotation: MKPointAnnotation {
+    let park: Park
+
+    init(park: Park) {
+        self.park = park
+        super.init()
+        super.coordinate = park.coordinate
+
+        super.title = "title"
+        if let fee = park.fee {
+            super.subtitle = "\(fee)円"
+        } else {
+            super.subtitle = "料金情報なし"
+        }
+    }
+}
+
 class ViewController: UIViewController, MKMapViewDelegate {
 
     @IBOutlet weak var mapView: MKMapView!
@@ -43,18 +60,10 @@ class ViewController: UIViewController, MKMapViewDelegate {
             return distance1.doubleValue < distance2.doubleValue
         })
         for park in sorted {
-            let annotation = MKPointAnnotation()
-            annotation.title = "title"
-            if let fee = park.fee {
-                annotation.subtitle = "\(fee)円"
-            } else {
-                annotation.subtitle = "料金情報なし"
-            }
-            let id = park.id
+            let annotation = ParkAnnotation(park: park)
 
-            annotation.coordinate = park.coordinate
-            annotations.addObject(id)
-            annotationDictionary.setObject(annotation, forKey: id)
+            annotations.addObject(park.id)
+            annotationDictionary.setObject(annotation, forKey: park.id)
             NSOperationQueue.mainQueue().addOperationWithBlock({
                 self.mapView.addAnnotation(annotation)
             })
@@ -97,7 +106,8 @@ class ViewController: UIViewController, MKMapViewDelegate {
     }
 
     func mapView(mapView: MKMapView!, didSelectAnnotationView view: MKAnnotationView!) {
-        NSLog("tapped annotation")
+        let park = (view.annotation as! ParkAnnotation).park
+        NSLog("tapped annotation \(park.fee)")
     }
 
 }
