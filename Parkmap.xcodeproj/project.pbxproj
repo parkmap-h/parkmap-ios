@@ -10,6 +10,7 @@
 		9010C03F1B4BC95600F4BF43 /* GeoJsonParse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9010C03E1B4BC95600F4BF43 /* GeoJsonParse.swift */; };
 		9010C0411B4BC9C200F4BF43 /* ParkmapAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9010C0401B4BC9C200F4BF43 /* ParkmapAPI.swift */; };
 		903695CB1B2BF0AE00C4F05B /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 903695CA1B2BF0AE00C4F05B /* MapKit.framework */; };
+		90864F6B1B58C4D300F35AB0 /* ParkDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90864F6A1B58C4D300F35AB0 /* ParkDetailViewController.swift */; };
 		9086565D1B27344B00A1EB11 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9086565C1B27344B00A1EB11 /* AppDelegate.swift */; };
 		9086565F1B27344B00A1EB11 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9086565E1B27344B00A1EB11 /* ViewController.swift */; };
 		908656621B27344B00A1EB11 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 908656601B27344B00A1EB11 /* Main.storyboard */; };
@@ -32,6 +33,7 @@
 		9010C03E1B4BC95600F4BF43 /* GeoJsonParse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GeoJsonParse.swift; sourceTree = "<group>"; };
 		9010C0401B4BC9C200F4BF43 /* ParkmapAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParkmapAPI.swift; sourceTree = "<group>"; };
 		903695CA1B2BF0AE00C4F05B /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		90864F6A1B58C4D300F35AB0 /* ParkDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParkDetailViewController.swift; sourceTree = "<group>"; };
 		908656571B27344B00A1EB11 /* Parkmap.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Parkmap.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9086565B1B27344B00A1EB11 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9086565C1B27344B00A1EB11 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -89,6 +91,7 @@
 				9010C0401B4BC9C200F4BF43 /* ParkmapAPI.swift */,
 				9086565C1B27344B00A1EB11 /* AppDelegate.swift */,
 				9086565E1B27344B00A1EB11 /* ViewController.swift */,
+				90864F6A1B58C4D300F35AB0 /* ParkDetailViewController.swift */,
 				908656601B27344B00A1EB11 /* Main.storyboard */,
 				908656631B27344B00A1EB11 /* Images.xcassets */,
 				908656651B27344B00A1EB11 /* LaunchScreen.xib */,
@@ -224,6 +227,7 @@
 			files = (
 				9086565F1B27344B00A1EB11 /* ViewController.swift in Sources */,
 				9086565D1B27344B00A1EB11 /* AppDelegate.swift in Sources */,
+				90864F6B1B58C4D300F35AB0 /* ParkDetailViewController.swift in Sources */,
 				9010C0411B4BC9C200F4BF43 /* ParkmapAPI.swift in Sources */,
 				9010C03F1B4BC95600F4BF43 /* GeoJsonParse.swift in Sources */,
 			);

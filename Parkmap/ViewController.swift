@@ -107,6 +107,10 @@ class ViewController: UIViewController, MKMapViewDelegate {
 
     func mapView(mapView: MKMapView!, didSelectAnnotationView view: MKAnnotationView!) {
         let park = (view.annotation as! ParkAnnotation).park
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let controller = storyboard.instantiateViewControllerWithIdentifier("ParkDetailViewController") as! UIViewController
+        controller.loadView()
+        presentViewController(controller, animated: true, completion: nil)
         NSLog("tapped annotation \(park.fee)")
     }
 
