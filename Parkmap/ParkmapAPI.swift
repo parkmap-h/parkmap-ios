@@ -6,14 +6,34 @@ import MapKit
 
 struct Park {
     let id: NSNumber
+    let name: String
     let distance: NSNumber
     let fee: NSNumber?
     let coordinate: CLLocationCoordinate2D
+    let photoURLs: [NSURL?]
+    let miniPhotoURLs: [NSURL?]
+    let thumbPhotoURLs: [NSURL?]
     static func fromFeatrue(j: Feature) -> Park {
+        func urls(key: String) -> [NSURL?] {
+            return (j.properties[key] as! [String]).map({ n in NSURL(string: n) })
+        }
         let id = j.properties["id"] as! NSNumber
+        let name = j.properties["name"] as! String
         let distance = j.properties["distance"] as! NSNumber
         let fee = j.properties["calc_fee"] as? NSNumber
-        return Park(id: id, distance: distance, fee: fee, coordinate: j.coordinate)
+        let photoURLs = urls("photos")
+        let miniPhotoURLs = urls("mini_photos")
+        let thumbPhotoURLs = urls("thumb_photos")
+        return Park(
+            id: id,
+            name: name,
+            distance: distance,
+            fee: fee,
+            coordinate: j.coordinate,
+            photoURLs: photoURLs,
+            miniPhotoURLs: miniPhotoURLs,
+            thumbPhotoURLs: thumbPhotoURLs
+        )
     }
 }
 
