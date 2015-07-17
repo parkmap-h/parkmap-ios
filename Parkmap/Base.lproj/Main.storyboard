@@ -63,14 +63,23 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
+                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4rb-QP-SXR">
+                                <rect key="frame" x="447" y="58" width="130" height="30"/>
+                                <state key="normal" title="Google Mapで見る">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="tapLookMap:" destination="uGY-FA-jKg" eventType="touchUpInside" id="U3N-Zp-Gs5"/>
+                                </connections>
+                            </button>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="TVW-H5-SXT">
-                                <rect key="frame" x="16" y="58" width="568" height="482"/>
+                                <rect key="frame" x="16" y="98" width="568" height="482"/>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="TVW-H5-SXT" firstAttribute="trailing" secondItem="99E-2H-qqB" secondAttribute="trailingMargin" id="4GH-5B-4tG"/>
-                            <constraint firstItem="TVW-H5-SXT" firstAttribute="top" secondItem="sMm-xa-1cO" secondAttribute="bottom" constant="8" id="F5R-co-gfS"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="4rb-QP-SXR" secondAttribute="trailing" constant="7" id="9Si-Bj-5rg"/>
                             <constraint firstItem="sMm-xa-1cO" firstAttribute="top" secondItem="ckf-fh-61h" secondAttribute="bottom" id="GAS-S1-85P"/>
                             <constraint firstItem="sMm-xa-1cO" firstAttribute="trailing" secondItem="99E-2H-qqB" secondAttribute="trailingMargin" id="bnH-EG-7Au"/>
                             <constraint firstItem="TVW-H5-SXT" firstAttribute="leading" secondItem="99E-2H-qqB" secondAttribute="leadingMargin" id="lir-pz-XaI"/>
