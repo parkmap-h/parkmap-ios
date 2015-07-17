@@ -4,6 +4,7 @@ import UIKit
 class ParkDetailViewController: UIViewController {
     
     var park: Park? = nil
+    let operationQueue = NSOperationQueue()
 
     @IBOutlet weak var titleLabel: UITextField!
     @IBOutlet weak var imageView: UIImageView!
@@ -14,8 +15,12 @@ class ParkDetailViewController: UIViewController {
         if let park = park {
             titleLabel.text = park.name
             let url: NSURL? = park.miniPhotoURLs[0]
-            let image = NSData(contentsOfURL: url!)
-            imageView.image = UIImage(data: image!)
+            operationQueue.addOperationWithBlock({
+                let image = NSData(contentsOfURL: url!)
+                NSOperationQueue.mainQueue().addOperationWithBlock({
+                    self.imageView.image = UIImage(data: image!)
+                })
+            })
         } else {
             titleLabel.text = ""
         }
