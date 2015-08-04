@@ -36,11 +36,14 @@ class ParkDetailViewController: UIViewController {
     }
 
     @IBAction func tapLookMap(sender: UIButton) {
-        if (UIApplication.sharedApplication().canOpenURL(NSURL(string:"comgooglemaps://")!)) {
-            UIApplication.sharedApplication().openURL(NSURL(string:
-                "comgooglemaps://?center=\(park?.coordinate.latitude),\(park?.coordinate.longitude)&zoom=14&views=traffic")!)
-        } else {
-            NSLog("Can't use comgooglemaps://");
+        if let park = park {
+            if (UIApplication.sharedApplication().canOpenURL(NSURL(string:"comgooglemaps://")!)) {
+                UIApplication.sharedApplication().openURL(NSURL(string:
+                    "comgooglemaps://?center=\(park.coordinate.latitude),\(park.coordinate.longitude)&zoom=14&views=traffic")!)
+            } else {
+                UIApplication.sharedApplication().openURL(NSURL(string:
+                    "https://maps.google.com/?daddr=\(park.coordinate.latitude),\(park.coordinate.longitude)")!)
+            }
         }
     }
 }
