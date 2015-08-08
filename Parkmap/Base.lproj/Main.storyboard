@@ -49,50 +49,93 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6bE-Fv-8A2">
-                                <rect key="frame" x="16" y="20" width="43" height="30"/>
-                                <state key="normal" title="戻る">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="tapBack:" destination="uGY-FA-jKg" eventType="touchUpInside" id="20U-Sn-Tgg"/>
-                                </connections>
-                            </button>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="駐車場名" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="sMm-xa-1cO">
-                                <rect key="frame" x="67" y="20" width="517" height="30"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
-                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4rb-QP-SXR">
-                                <rect key="frame" x="447" y="58" width="130" height="30"/>
-                                <state key="normal" title="Google Mapで見る">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="tapLookMap:" destination="uGY-FA-jKg" eventType="touchUpInside" id="U3N-Zp-Gs5"/>
-                                </connections>
-                            </button>
+                            <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="f5x-ZK-ZcP">
+                                <rect key="frame" x="0.0" y="20" width="600" height="34"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6bE-Fv-8A2">
+                                        <rect key="frame" x="8" y="3" width="43" height="30"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="43" id="AMM-qm-ZJR"/>
+                                        </constraints>
+                                        <state key="normal" title="戻る">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="tapBack:" destination="uGY-FA-jKg" eventType="touchUpInside" id="20U-Sn-Tgg"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4rb-QP-SXR">
+                                        <rect key="frame" x="459" y="0.0" width="130" height="30"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="130" id="B4u-mn-P5t"/>
+                                        </constraints>
+                                        <state key="normal" title="Google Mapで見る">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="tapLookMap:" destination="uGY-FA-jKg" eventType="touchUpInside" id="U3N-Zp-Gs5"/>
+                                        </connections>
+                                    </button>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="駐車場名" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="5cF-Q5-fdO">
+                                        <rect key="frame" x="59" y="2" width="392" height="30"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="30" id="DwZ-Nc-shK"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstItem="5cF-Q5-fdO" firstAttribute="leading" secondItem="6bE-Fv-8A2" secondAttribute="trailing" constant="8" id="9Iu-h6-bvJ"/>
+                                    <constraint firstItem="6bE-Fv-8A2" firstAttribute="leading" secondItem="f5x-ZK-ZcP" secondAttribute="leading" constant="8" id="Ega-no-7nK"/>
+                                    <constraint firstItem="6bE-Fv-8A2" firstAttribute="top" secondItem="f5x-ZK-ZcP" secondAttribute="top" constant="2" id="NUr-4s-H7j"/>
+                                    <constraint firstItem="4rb-QP-SXR" firstAttribute="leading" secondItem="5cF-Q5-fdO" secondAttribute="trailing" constant="8" id="Rln-RE-Yuk"/>
+                                    <constraint firstAttribute="trailing" secondItem="4rb-QP-SXR" secondAttribute="trailing" constant="11" id="zkF-CG-Rph"/>
+                                </constraints>
+                            </view>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="TVW-H5-SXT">
-                                <rect key="frame" x="16" y="98" width="568" height="482"/>
+                                <rect key="frame" x="0.0" y="56" width="600" height="482"/>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="TVW-H5-SXT" firstAttribute="trailing" secondItem="99E-2H-qqB" secondAttribute="trailingMargin" id="4GH-5B-4tG"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="4rb-QP-SXR" secondAttribute="trailing" constant="7" id="9Si-Bj-5rg"/>
-                            <constraint firstItem="sMm-xa-1cO" firstAttribute="top" secondItem="ckf-fh-61h" secondAttribute="bottom" id="GAS-S1-85P"/>
-                            <constraint firstItem="sMm-xa-1cO" firstAttribute="trailing" secondItem="99E-2H-qqB" secondAttribute="trailingMargin" id="bnH-EG-7Au"/>
-                            <constraint firstItem="TVW-H5-SXT" firstAttribute="leading" secondItem="99E-2H-qqB" secondAttribute="leadingMargin" id="lir-pz-XaI"/>
+                            <constraint firstItem="f5x-ZK-ZcP" firstAttribute="top" secondItem="ckf-fh-61h" secondAttribute="bottom" id="8Us-tZ-eAn"/>
+                            <constraint firstItem="TVW-H5-SXT" firstAttribute="leading" secondItem="99E-2H-qqB" secondAttribute="leadingMargin" constant="-16" id="Omy-LG-CXv"/>
+                            <constraint firstItem="zit-J9-caZ" firstAttribute="top" secondItem="TVW-H5-SXT" secondAttribute="bottom" id="SDr-oy-DKF"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="TVW-H5-SXT" secondAttribute="trailing" constant="-16" id="WzG-aL-jP1"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="f5x-ZK-ZcP" secondAttribute="trailing" constant="-16" id="aXv-56-4gx"/>
+                            <constraint firstItem="TVW-H5-SXT" firstAttribute="top" secondItem="f5x-ZK-ZcP" secondAttribute="bottom" id="hSZ-z9-Jeh"/>
+                            <constraint firstItem="f5x-ZK-ZcP" firstAttribute="leading" secondItem="99E-2H-qqB" secondAttribute="leadingMargin" constant="-16" id="kWo-a8-oZt"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="imageView" destination="TVW-H5-SXT" id="iVI-HX-bWf"/>
-                        <outlet property="titleLabel" destination="sMm-xa-1cO" id="HiY-50-BKr"/>
+                        <outlet property="titleLabel" destination="5cF-Q5-fdO" id="b7K-h1-imb"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="U4G-nw-Une" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1190" y="391"/>
+            <point key="canvasLocation" x="1112" y="332"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="KpY-57-tH6">
+            <objects>
+                <viewController automaticallyAdjustsScrollViewInsets="NO" id="91X-PE-kvN" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="YMb-C0-qwy"/>
+                        <viewControllerLayoutGuide type="bottom" id="NxC-Z6-5y1"/>
+                    </layoutGuides>
+                    <view key="view" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="tlU-xh-4hU">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <toolbarItems/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dsb-ro-N8N" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
         </scene>
     </scenes>
 </document>

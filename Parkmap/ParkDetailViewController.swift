@@ -6,8 +6,8 @@ class ParkDetailViewController: UIViewController {
     var park: Park? = nil
     let operationQueue = NSOperationQueue()
 
-    @IBOutlet weak var titleLabel: UITextField!
     @IBOutlet weak var imageView: UIImageView!
+    @IBOutlet weak var titleLabel: UILabel!
 
     override func viewDidLoad() {
         super.viewDidLoad()
