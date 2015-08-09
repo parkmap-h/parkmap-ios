@@ -40,7 +40,12 @@ struct Park {
 class ParkmapAPI {
     let operationQueue = NSOperationQueue()
     func search(params: NSDictionary, handler: (FeatureCollection) -> Void) -> Void {
-        let url = NSURL(string: "http://localhost:3000/.json")
+        #if LOCAL
+            let base_url = "http://localhost:3000/"
+        #else
+            let base_url = "http://parkmap.eiel.info/"
+        #endif
+        let url = NSURL(string: "\(base_url).json")
         let request = NSMutableURLRequest(URL: url!)
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         // set the header(s)
