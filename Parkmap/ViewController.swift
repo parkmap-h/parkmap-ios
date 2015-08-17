@@ -20,10 +20,29 @@ class ParkAnnotation: MKPointAnnotation {
     }
 }
 
+class ParkAnnotationView: MKAnnotationView {
+    var _label: UILabel!
+    var label: UILabel! {
+        get {
+            return _label
+        }
+        set(newValue) {
+            if _label != nil {
+                _label.removeFromSuperview()
+            }
+            _label = newValue
+            addSubview(newValue)
+        }
+    }
+
+    override func prepareForReuse() {
+        super.prepareForReuse()
+    }
+}
+
 class ViewController: UIViewController, MKMapViewDelegate {
 
     @IBOutlet weak var mapView: MKMapView!
-    let annotations = NSMutableOrderedSet()
     let annotationDictionary = NSMutableDictionary()
     let api = ParkmapAPI()
 
@@ -42,7 +61,7 @@ class ViewController: UIViewController, MKMapViewDelegate {
 
     func search() {
         let params = [
-            "distance":200,
+            "distance":500,
             "longitude":mapView.centerCoordinate.longitude,
             "latitude":mapView.centerCoordinate.latitude,
             "start_at":"",
@@ -53,34 +72,16 @@ class ViewController: UIViewController, MKMapViewDelegate {
     }
 
     func addAnntations(features: FeatureCollection) {
-        let parks = features.features.map({ (feature) in return Park.fromFeatrue(feature) })
-        let sorted = parks.sorted({(park1, park2) in
-            let distance1 = park1.distance
-            let distance2 = park2.distance
-            return distance1.doubleValue < distance2.doubleValue
-        })
-        for park in sorted {
+        for feature in features.features {
+            let park = Park.fromFeatrue(feature)
             let annotation = ParkAnnotation(park: park)
-
-            annotations.addObject(park.id)
-            annotationDictionary.setObject(annotation, forKey: park.id)
-            NSOperationQueue.mainQueue().addOperationWithBlock({
-                self.mapView.addAnnotation(annotation)
-            })
-            var count = annotations.count
-            while true {
-                if (count < 200) { break }
-                count--
-                let removeId = annotations.objectAtIndex(0) as! NSNumber
-                annotations.removeObjectAtIndex(0)
-                let removeAnnotation = annotationDictionary.objectForKey(removeId) as! MKAnnotation
-                annotationDictionary.removeObjectForKey(removeId)
+            if annotationDictionary.objectForKey(park.id) == nil {
+                annotationDictionary.setObject(annotation, forKey: park.id)
                 NSOperationQueue.mainQueue().addOperationWithBlock({
-                    self.mapView.removeAnnotation(removeAnnotation)
+                    self.mapView.addAnnotation(annotation)
                 })
             }
         }
-
     }
 
     // MARK: - MKMapViewDelegate
@@ -90,17 +91,19 @@ class ViewController: UIViewController, MKMapViewDelegate {
 
     func mapView(mapView: MKMapView!, viewForAnnotation annotation: MKAnnotation!) -> MKAnnotationView! {
         let myIdentifier = "park"
-        var myAnnotation: MKAnnotationView!
+        var myAnnotation = mapView.dequeueReusableAnnotationViewWithIdentifier(myIdentifier) as! ParkAnnotationView!
         if myAnnotation == nil {
-            myAnnotation = MKAnnotationView(annotation: annotation, reuseIdentifier: myIdentifier)
+            myAnnotation = ParkAnnotationView(annotation: annotation, reuseIdentifier: myIdentifier)
+            let view = UILabel(frame: CGRect(origin: CGPoint(x: 0, y: 0), size: CGSize(width: 80,height: 20)))
+            view.center = CGPoint(x: 0, y: 0)
+            view.font = UIFont.boldSystemFontOfSize(12)
+            view.adjustsFontSizeToFitWidth = true
+            view.textAlignment = .Center
+            view.textColor = UIColor.whiteColor()
+            view.backgroundColor = UIColor(hue: 0, saturation: 0.8, brightness: 0.7, alpha: 0.8)
+            myAnnotation.label = view
         }
-        let view = UILabel(frame: CGRect(origin: CGPoint(x: -20, y: -6), size: CGSize(width: 60,height: 12)))
-        view.font = UIFont.systemFontOfSize(12)
-        view.text = annotation.subtitle
-        view.adjustsFontSizeToFitWidth = true
-        view.textAlignment = .Center
-        view.backgroundColor = UIColor.whiteColor()
-        myAnnotation.addSubview(view)
+        myAnnotation.label.text = annotation.subtitle
         myAnnotation.annotation = annotation
         return myAnnotation
     }
